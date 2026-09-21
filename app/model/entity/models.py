@@ -1,0 +1,74 @@
+from decimal import Decimal
+
+from sqlmodel import Field, SQLModel
+
+
+# 由于采用了citus的列存储（不需要主键索引），所以polars读取csv直接存入数据库。
+class IndustryChartData(SQLModel, table=True):
+    __tablename__ = "industry_chart_data"
+
+    # 主键字段（列存表通常没有真正的物理主键约束，但 SQLModel 模型层需要指定 primary_key 标识）
+    id: int | None = Field(default=None, primary_key=True)
+
+    # -------- 维度 --------
+    chart_type: str = Field(description="分组维度")
+    item_key: str = Field(description="业务唯一键")
+    item_label: str = Field(description="展示标签")
+
+    sort_order: int = Field(default=0, description="排序与数量")
+
+    product_count: int | None = Field(default=None, description="该分组产品数")
+    cumulative_product_count: int | None = Field(default=None, description="累计产品数")
+
+    valid_sales_count: int | None = Field(
+        default=None, description="有有效销量数据的产品数"
+    )
+    monthly_sales: int | None = Field(default=None, description="月销量合计")
+    avg_monthly_sales: Decimal | None = Field(default=None)
+    sales_rank: int | None = Field(default=None, description="销量排名")
+    sales_cumulative_share_pct: Decimal | None = Field(
+        default=None, description="销量累计占比 %"
+    )
+
+    valid_revenue_count: int | None = Field(
+        default=None, description="有有效销售额数据的产品数"
+    )
+    monthly_revenue: Decimal | None = Field(default=None)
+    revenue_rank: int | None = Field(default=None, description="销售额排名")
+    revenue_cumulative_share_pct: Decimal | None = Field(
+        default=None, description="销售额累计占比 %"
+    )
+
+    valid_rating_count: int | None = Field(
+        default=None, description="有有效评分数据的产品数"
+    )
+    avg_rating: Decimal | None = Field(default=None, description="平均评分 0~5")
+    rating_score_pct: Decimal | None = Field(default=None, description="评分达标占比 %")
+
+    sales_share_pct: Decimal | None = Field(default=None, description="销量占比 %")
+    revenue_share_pct: Decimal | None = Field(default=None, description="销售额占比 %")
+    avg_sales_share_pct: Decimal | None = Field(
+        default=None, description="单品均销量占比 %"
+    )
+
+    sample_count: int = Field(default=0, description="该分组样本量")
+    sample_share_pct: Decimal | None = Field(default=None, description="样本占比 %")
+
+
+class ReviewChartData(SQLModel, table=True):
+    __tablename__ = "review_chart_data"
+
+    # 主键字段（列存表通常没有真正的物理主键约束，但 SQLModel 模型层需要指定 primary_key 标识）
+    id: int | None = Field(default=None, primary_key=True)
+
+    # -------- 维度 --------
+    analysis_type: str = Field(description="分组大类：negative / motivation / positive")
+    topic_id: str = Field(description="业务唯一键，如 negative_4")
+    topic_name: str = Field(description="展示标签，如 做工与耐用性")
+
+    # -------- 数值 --------
+    sort_order: int = Field(default=0, description="排序")
+    matched_reviews: int | None = Field(default=None, description="命中评论数")
+    sample_count: int | None = Field(default=None, description="该分组样本总量")
+    share_pct: Decimal | None = Field(default=None, description="占比 %")
+    reason: str = Field(description="原因描述")

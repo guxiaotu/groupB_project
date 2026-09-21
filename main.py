@@ -1,46 +1,31 @@
-from pathlib import Path
-
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+from starlette.responses import HTMLResponse
+from starlette.staticfiles import StaticFiles
 
-BASE_DIR = Path(__file__).resolve().parent
+from app.api import templates
+from app.api.routers import router as api_router
+from app.config import BASE_DIR
+from app.view import get_industry, get_review
 
-app = FastAPI()
+app = FastAPI(title="智能商品统计分析系统")
 
-# 挂载静态资源：浏览器访问 /static/xxx
+# 全局挂载静态文件
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
-# 配置模板目录
-templates = Jinja2Templates(directory=BASE_DIR / "templates")
+# 注册路由
+app.include_router(api_router)
 
 
-@app.get("/")
-async def root(request: Request):
-    return "Hello FastAPI"
-
-
-@app.get("/hello", response_class=HTMLResponse)
-async def hello(request: Request):
-    sales = [85, 92, 78, 110, 135, 158, 172, 165, 140, 120, 105, 95]
-    profit = [22, 28, 20, 35, 48, 62, 75, 68, 52, 40, 32, 25]
-    rate = [25.9, 30.4, 25.6, 31.8, 35.6, 39.2, 43.6, 41.2, 37.1, 33.3, 30.5, 26.3]
+# 模板
+@app.get(path="/", response_class=HTMLResponse, name="index")
+async def index(request: Request):
+    """入口首页：两张 CSV 的核心指标 + 双入口卡片"""
 
     return templates.TemplateResponse(
         request=request,
-        name="hello.html",
+        name="index.jinja2",
         context={
-            "sales": sales,
-            "profit": profit,
-            "rate": rate,
+            "industry": await get_industry(),
+            "review": await get_review(),
         },
-    )
-
-
-@app.get("/data", response_class=HTMLResponse)
-async def hello(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="上架月份分布图.html",
     )

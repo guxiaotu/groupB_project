@@ -1,24 +1,43 @@
 [project]
-name = "group-b"
+name = "groupB_project"
 version = "0.1.0"
 requires-python = ">=3.14"
 dependencies = [
-    "aiofiles>=25.1.0",
-    "fastapi[standard]>=0.141.1",
-    "jinja2>=3.1.6",
-    "openpyxl>=3.1.5",
-    "pandas>=3.0.6",
+    "asyncpg>=0.32.0",
+    "fastapi[standard,standard-no-fastapi-cloud-cli]>=0.162.0",
+    "minio>=7.2.20",
+    "pandas>=3.1.0",
+    "polars>=2.1.0",
+    "psycopg2-binary>=2.9.13",
+    "pyarrow>=26.0.1",
+    "pydantic-settings>=2.16.2",
+    "sqlalchemy[asyncio]==2.1.8",
+    "sqlmodel>=0.0.48",
 ]
 
 [tool.fastapi]
 entrypoint = "main:app"
 
-[[tool.uv.index]]
-url = "https://mirrors.aliyun.com/pypi/simple/"
-default = true
-
 [dependency-groups]
 dev = [
-    "jupyterlab>=4.6.3",
-    "ruff>=0.16.8",
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.4.1.post1",
+    "sqlacodegen>=4.0.4",
 ]
+
+[[index]]
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+default = true
+
+[tool.pytest.ini_options]
+pythonpath = "."
+asyncio_mode = "auto"  # 配置自动识别，不用配置@pytest.mark.asyncio
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-s"
+log_cli = true
+log_cli_level = "DEBUG"
+log_format = "%(asctime)s [%(levelname)s] %(name)s - %(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"

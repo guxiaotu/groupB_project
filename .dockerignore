@@ -1,0 +1,11 @@
+.idea/
+*.iml
+.vscode/
+.venv/
+docker/
+.__pycache__/
+.ruff_cache/
+.pytest_cache/
+data/
+tests/
+db/
