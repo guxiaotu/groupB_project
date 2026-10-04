@@ -8,15 +8,16 @@ services:
     depends_on:
       - mysql
 
-  mysql:
-    image: docker.1ms.run/mysql:8
+  citus:
+    image: docker.1ms.run/citusdata/citus
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Django123456
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Django123456
     volumes:
-      - mysql:/var/lib/mysql
+      - postgres:/var/lib/postgresql/
     ports:
-      - "3306:3306/tcp"
+      - "5432:5432"
 
 volumes:
-  mysql:
+  citus:
