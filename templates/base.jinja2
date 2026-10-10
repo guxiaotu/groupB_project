@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}数据可视化平台{% endblock %}</title>
-  <meta name="description" content="行业数据 & 评论分析可视化平台 · pandas + FastAPI + Jinja2 + ECharts">
-  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+  <meta name="description" content="行业数据 & 评论分析可视化平台">
+  <link rel="stylesheet" href="/static/css/style.css">
   {% block head_extra %}{% endblock %}
 </head>
 <body>
   <header class="site-header">
     <nav class="nav wrap">
       <a class="brand" href="{{ url_for('index') }}">
-        <img src="{{ url_for('static', path='image/logo.svg') }}" alt="logo" class="logo">
+        <img src="/static/image/logo.svg" alt="logo" class="logo">
         <span>InsightBoard</span>
       </a>
       <ul class="nav-links">

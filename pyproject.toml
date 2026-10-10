@@ -11,8 +11,10 @@ dependencies = [
     "sqlmodel==0.0.48",
 ]
 
-[dependency-groups]
-dev = []
-
 [tool.fastapi]
 entrypoint = "main:app"
+
+[[tool.uv.index]]
+name = "tencent"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+default = true
