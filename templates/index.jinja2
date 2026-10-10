@@ -3,40 +3,71 @@
 {% set active = 'index' %}
 
 {% block content %}
+    <section class="hero">
+        <h1 style="text-align:center;">行业数据 &amp; 评论分析可视化平台</h1>
+    </section>
 
-<section class="kpis">
-  <div class="kpi"><div class="lab">样本产品总数</div><div class="val">{{ '{:,}'.format(industry.summary.total_products) }}</div></div>
-  <div class="kpi"><div class="lab">月销量合计</div><div class="val">{{ '{:,}'.format(industry.summary.total_monthly_sales) }}</div></div>
-  <div class="kpi"><div class="lab">月销售额合计</div><div class="val">${{ '{:,.0f}'.format(industry.summary.total_monthly_revenue) }}</div></div>
-  <div class="kpi"><div class="lab">覆盖品牌数</div><div class="val">{{ industry.summary.brand_count }}</div></div>
-  <div class="kpi"><div class="lab">评论主题数</div><div class="val">{{ review.payload.negative.labels|length + review.payload.positive.labels|length + review.payload.motivation.labels|length }}</div></div>
-  <div class="kpi"><div class="lab">匹配评论数</div><div class="val">{{ '{:,}'.format(review.summary.negative_total + review.summary.positive_total + review.summary.motivation_total) }}</div></div>
-</section>
+    <section class="kpis">
+        <div class="kpi">
+            <div class="lab">样本产品总数</div>
+            <div class="val">{{ '{:,}'.format(industry.summary.total_products) }}</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">月销量合计</div>
+            <div class="val">{{ '{:,}'.format(industry.summary.total_monthly_sales) }}</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">月销售额合计</div>
+            <div class="val">${{ '{:,.0f}'.format(industry.summary.total_monthly_revenue) }}</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">覆盖品牌数</div>
+            <div class="val">{{ industry.summary.brand_count }}</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">评论主题数</div>
+            <div class="val">{{ review.payload.negative.labels|length + review.payload.positive.labels|length + review.payload.motivation.labels|length }}</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">匹配评论数</div>
+            <div class="val">{{ '{:,}'.format(review.summary.negative_total + review.summary.positive_total + review.summary.motivation_total) }}</div>
+        </div>
+    </section>
 
-<section class="entry-grid">
-  <article class="entry-card">
-    <div class="entry-tag">行业数据</div>
-    <h2>行业分析</h2>
-    <p>价格带分布、品牌集中度 Pareto 曲线、产品上架时间节奏。一眼看清低价走量、中低价收割营收的市场结构。</p>
-    <ul class="entry-meta">
-      <li>价格带 <b>8</b> 档</li>
-      <li>品牌 <b>{{ industry.summary.brand_count }}</b> 个</li>
-      <li>上架月份 <b>{{ industry.payload.listing_distribution.labels|length }}</b> 个</li>
-    </ul>
-    <a class="btn" href="{{ url_for('industry') }}">进入 /industry →</a>
-  </article>
+    <section class="entry-grid">
+        <article class="entry-card">
+            <div class="entry-tag">行业数据</div>
+            <h2>行业分析</h2>
+            <p>价格带分布、品牌集中度 Pareto 曲线、产品上架时间节奏。一眼看清低价走量、中低价收割营收的市场结构。</p>
+            <ul class="entry-meta">
+                <li>价格带 <b>8</b> 档</li>
+                <li>品牌 <b>{{ industry.summary.brand_count }}</b> 个</li>
+                <li>上架月份 <b>{{ industry.payload.listing_distribution.labels|length }}</b> 个</li>
+            </ul>
+            <a class="btn" href="{{ url_for('industry') }}">进入→</a>
+        </article>
 
-  <article class="entry-card">
-    <div class="entry-tag alt">评论分析</div>
-    <h2>评论分析</h2>
-    <p>从低星评论提炼负面痛点、从高星评论提炼口碑卖点、从购买评论提炼动机。主题词匹配 + 占比排序。</p>
-    <ul class="entry-meta">
-      <li>负面主题 <b>{{ review.payload.negative.labels|length }}</b> 个</li>
-      <li>正面主题 <b>{{ review.payload.positive.labels|length }}</b> 个</li>
-      <li>动机主题 <b>{{ review.payload.motivation.labels|length }}</b> 个</li>
-    </ul>
-    <a class="btn alt" href="{{ url_for('review') }}">进入 /review →</a>
-  </article>
-</section>
+        <article class="entry-card">
+            <div class="entry-tag alt">评论分析</div>
+            <h2>评论分析</h2>
+            <p>从低星评论提炼负面痛点、从高星评论提炼口碑卖点、从购买评论提炼动机。主题词匹配 + 占比排序。</p>
+            <ul class="entry-meta">
+                <li>负面主题 <b>{{ review.payload.negative.labels|length }}</b> 个</li>
+                <li>正面主题 <b>{{ review.payload.positive.labels|length }}</b> 个</li>
+                <li>动机主题 <b>{{ review.payload.motivation.labels|length }}</b> 个</li>
+            </ul>
+            <a class="btn alt" href="{{ url_for('review') }}">进入→</a>
+        </article>
+    </section>
 
+    <section class="arch">
+        <h2>技术链路</h2>
+        <div class="arch-flow">
+            <div class="arch-node">CSV 文件<br><small>行业 / 评论</small></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node">数据清洗<br><small>清洗 · 聚合 · 分组</small></div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node">数据分析<br><small>图表展示</small></div>
+        </div>
+    </section>
 {% endblock %}

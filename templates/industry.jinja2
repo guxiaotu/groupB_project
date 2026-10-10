@@ -58,7 +58,7 @@
 
     <div class="card">
         <h2>数据明细</h2>
-        <p class="desc">按 <code>chart_type</code> 分组后的原始记录（每类取前 12 行）。</p>
+        <p class="desc">按 <code>chart_type</code> 分组后的原始记录。</p>
         <div class="table-wrap">
             <table>
                 <thead>
@@ -75,7 +75,7 @@
                 </thead>
                 <tbody>
                 {% for ctype, data in industry.payload.items() %}
-                    {% for r in data.rows[:12] %}
+                    {% for r in data.rows %}
                         <tr>
                             <td>{{ ctype }}</td>
                             <td>{{ r.item_label }}</td>
