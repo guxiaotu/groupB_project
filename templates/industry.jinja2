@@ -1,0 +1,100 @@
+{% extends "base.jinja2" %}
+{% block title %}行业分析 · 数据可视化平台{% endblock %}
+{% set active = 'industry' %}
+
+{% block head_extra %}
+    <script>window.PAYLOAD = {{ industry.payload|tojson }};</script>
+{% endblock %}
+
+{% block content %}
+    <section class="page-head">
+        <h1>行业分析</h1>
+        <p class="lede">价格带 / 品牌集中度 / 上架时间三个维度，揭示市场规模与竞争结构。</p>
+    </section>
+
+    <section class="kpis">
+        <div class="kpi">
+            <div class="lab">样本产品总数</div>
+            <div class="val">{{ '{:,}'.format(industry.summary.total_products) }}</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">月销量合计</div>
+            <div class="val">{{ '{:,}'.format(industry.summary.total_monthly_sales) }}</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">月销售额合计</div>
+            <div class="val">${{ '{:,.0f}'.format(industry.summary.total_monthly_revenue) }}</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">覆盖品牌数</div>
+            <div class="val">{{ industry.summary.brand_count }}</div>
+        </div>
+    </section>
+
+    <div class="card">
+        <h2>价格带分布</h2>
+        <p class="desc">各价格区间的产品数、月销量、月销售额与平均评分对比。</p>
+        <div class="grid2">
+            <div id="price_sales" class="chart"></div>
+            <div id="price_revenue" class="chart"></div>
+        </div>
+        <div id="price_rating" class="chart short"></div>
+    </div>
+
+    <div class="card">
+        <h2>品牌集中度</h2>
+        <p class="desc">头部品牌销售额 / 销量累计占比，直观呈现长尾结构。</p>
+        <div class="grid2">
+            <div id="brand_pareto" class="chart tall"></div>
+            <div id="brand_top" class="chart tall"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>上架时间分布</h2>
+        <p class="desc">按月份统计产品上架数量，观察市场进入节奏。</p>
+        <div id="listing" class="chart tall"></div>
+    </div>
+
+    <div class="card">
+        <h2>数据明细</h2>
+        <p class="desc">按 <code>chart_type</code> 分组后的原始记录（每类取前 12 行）。</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>chart_type</th>
+                    <th>item_label</th>
+                    <th>product_count</th>
+                    <th>monthly_sales</th>
+                    <th>monthly_revenue</th>
+                    <th>avg_rating</th>
+                    <th>sales_share_pct</th>
+                    <th>revenue_share_pct</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ctype, data in industry.payload.items() %}
+                    {% for r in data.rows[:12] %}
+                        <tr>
+                            <td>{{ ctype }}</td>
+                            <td>{{ r.item_label }}</td>
+                            <td>{{ r.product_count }}</td>
+                            <td>{{ r.monthly_sales }}</td>
+                            <td>{{ r.monthly_revenue }}</td>
+                            <td>{{ '%.2f'|format(r.avg_rating) if r.avg_rating else '-' }}</td>
+                            <td>{{ r.sales_share_pct }}</td>
+                            <td>{{ r.revenue_share_pct }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/echarts.min.js"></script>
+    <script src="/static/js/industry.js"></script>
+{% endblock %}

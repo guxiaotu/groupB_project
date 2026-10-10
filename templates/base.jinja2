@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}数据可视化平台{% endblock %}</title>
+  <meta name="description" content="行业数据 & 评论分析可视化平台 · pandas + FastAPI + Jinja2 + ECharts">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav wrap">
+      <a class="brand" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', path='image/logo.svg') }}" alt="logo" class="logo">
+        <span>InsightBoard</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('index') }}" class="{% if active=='index' %}on{% endif %}">首页</a></li>
+        <li><a href="{{ url_for('industry') }}" class="{% if active=='industry' %}on{% endif %}">行业分析</a></li>
+        <li><a href="{{ url_for('review') }}" class="{% if active=='review' %}on{% endif %}">评论分析</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
