@@ -19,7 +19,7 @@ app.state.industry = load_industry(csv_dir / "industry_chart_data.csv")
 app.state.review = load_review(csv_dir / "review_chart_data.csv")
 
 
-@app.get("/", response_class=HTMLResponse, name="index")
+@app.get(path="/", response_class=HTMLResponse, name="index")
 def index(request: Request):
     """入口首页：两张 CSV 的核心指标 + 双入口卡片"""
 

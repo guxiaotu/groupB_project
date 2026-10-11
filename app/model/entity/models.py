@@ -41,3 +41,25 @@ class IndustryChartData(SQLModel, table=True):
 
     snapshot_at: dt.datetime = Field(default_factory=lambda: dt.datetime.now(dt.timezone.utc),
                                      description="数据快照时间，同快照+同维度+同业务键唯一")
+
+
+class ReviewChartData(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+
+    # -------- 维度 --------
+    analysis_type: str = Field(description="分组大类：negative / motivation / positive")
+    topic_id: str = Field(description="业务唯一键，如 negative_4")
+    topic_name: str = Field(description="展示标签，如 做工与耐用性")
+
+    # -------- 数值 --------
+    sort_order: int = Field(default=0, description="排序")
+    matched_reviews: int = Field(description="命中评论数")
+    sample_count: int = Field(description="该分组样本总量")
+    share_pct: Decimal | None = Field(default=None, description="占比 %")
+    reason: str = Field(description="原因描述")
+
+    # -------- 快照：幂等依据 --------
+    snapshot_at: dt.datetime = Field(
+        default_factory=lambda: dt.datetime.now(dt.timezone.utc),
+        description="数据快照时间，同快照+同维度+同业务键唯一",
+    )

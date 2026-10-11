@@ -12,17 +12,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
-@router.get("/industry", response_class=HTMLResponse, name="industry")
+@router.get(path="/industry", response_class=HTMLResponse, name="industry")
 def industry(request: Request):
     """行业分析页：价格带 / 品牌集中度 / 上架时间分布"""
     return templates.TemplateResponse(
         request=request,
         name="industry.jinja2",
-        context={
-            "industry": request.app.state.industry}
+        context={"industry": request.app.state.industry}
     )
 
-@router.get("/review", response_class=HTMLResponse, name="review")
+
+@router.get(path="/review", response_class=HTMLResponse, name="review")
 def review(request: Request):
     """评论分析页：负面 / 正面 / 购买动机主题"""
     return templates.TemplateResponse(
