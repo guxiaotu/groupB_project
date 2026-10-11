@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from app.model.view.industry import Industry
-from app.model.view.review import Review
+from app.model.view.view_models import Industry
+from app.model.view.view_models import Review
 
 
 def load_industry(path: Path) -> Industry:

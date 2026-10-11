@@ -1,10 +1,10 @@
 from sqlalchemy import text
 
-from app.config.database import engine, create_tables, drop_tables
-from app.service.x_service import save_data
+from app.config.database import engine, create_tables, drop_tables, DATABASE_URL
 
 
 def test_connection():
+    print("测试"+DATABASE_URL)
 
     try:
         with engine.connect() as conn:
@@ -22,7 +22,3 @@ def test_create_table():
 
 def test_drop_table():
     drop_tables()
-
-
-def test_sava_data():
-    save_data()

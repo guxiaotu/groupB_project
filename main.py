@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -15,18 +13,21 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 # 注册路由
 app.include_router(router)
 
+# csv文件存到 app.state（放在 lifespan 里），一次在加载数据到内存中
+csv_dir = BASE_DIR / "data/csv"
+app.state.industry = load_industry(csv_dir / "industry_chart_data.csv")
+app.state.review = load_review(csv_dir / "review_chart_data.csv")
+
 
 @app.get("/", response_class=HTMLResponse, name="index")
 def index(request: Request):
     """入口首页：两张 CSV 的核心指标 + 双入口卡片"""
 
-    industry = load_industry(Path(BASE_DIR / "data/csv/industry_chart_data.csv"))
-    review = load_review(Path(BASE_DIR / "data/csv/review_chart_data.csv"))
     return templates.TemplateResponse(
-        request,
-        "index.jinja2",
-        {
-            "industry": industry,
-            "review": review,
+        request=request,
+        name="index.jinja2",
+        context={
+            "industry": request.app.state.industry,
+            "review": request.app.state.review,
         },
     )

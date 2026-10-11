@@ -11,7 +11,7 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(
-    url=str(DATABASE_URL),
+    url=DATABASE_URL,
     echo=True,  # 打印SQL语句
     pool_size=10,  # 连接池大小
     max_overflow=20,  # 连接词大池满后最多再创建20个连接池
