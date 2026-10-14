@@ -17,7 +17,7 @@
     var cat = { type: 'category', data: lb, axisLabel: { color: '#475569', rotate: 30 } };
 
     reg(document.getElementById('price_sales'), {
-      title: { text: '价格带 · 产品数 / 月销量', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
+      // title: { text: '价格带 · 产品数 / 月销量', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
       tooltip: { trigger: 'axis' }, legend: LAB, grid: { top: 56, left: 60, right: 20, bottom: 40 },
       xAxis: cat,
       yAxis: [
@@ -63,7 +63,7 @@
     var ms = d.rows.map(function (r) { return r.monthly_sales; });
 
     reg(document.getElementById('brand_pareto'), {
-      title: { text: '品牌销售额 Pareto 曲线', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
+      // title: { text: '品牌销售额 Pareto 曲线', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
       tooltip: { trigger: 'axis' }, legend: LAB, grid: { top: 56, left: 70, right: 60, bottom: 40 },
       xAxis: { type: 'category', data: lb, axisLabel: { color: '#475569', interval: 4, rotate: 40 } },
       yAxis: [
@@ -78,7 +78,7 @@
 
     var top = d.rows.slice(0, 15).slice().reverse();
     reg(document.getElementById('brand_top'), {
-      title: { text: 'TOP15 品牌 · 销量与销售额', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
+      // title: { text: 'TOP15 品牌 · 销量与销售额', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
       tooltip: { trigger: 'axis' }, legend: LAB, grid: { top: 56, left: 100, right: 70, bottom: 20 },
       xAxis: [
         { type: 'value', axisLine: { lineStyle: { color: '#cbd5e1' } } },
@@ -99,7 +99,7 @@
     var cum = d.rows.map(function (r) { return r.cumulative_product_count; });
 
     reg(document.getElementById('listing'), {
-      title: { text: '产品上架数量随月份变化', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
+      // title: { text: '产品上架数量随月份变化', left: 'center', textStyle: { fontSize: 14, fontWeight: 600 } },
       tooltip: { trigger: 'axis' }, legend: LAB, grid: { top: 56, left: 60, right: 60, bottom: 44 },
       xAxis: { type: 'category', data: lb, axisLabel: { color: '#475569', interval: 11, rotate: 40 } },
       yAxis: [

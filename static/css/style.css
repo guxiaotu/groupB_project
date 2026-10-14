@@ -1,20 +1,29 @@
 :root {
-    --bg: #f4f6fa;
-    --card: #fff;
-    --line: #e6eaf1;
-    --line2: #f0f2f6;
-    --ink: #111827;
-    --ink2: #374151;
-    --mute: #6b7280;
-    --mute2: #9ca3af;
-    --brand: #4f46e5;
-    --brand2: #818cf8;
-    --good: #059669;
-    --warn: #d97706;
-    --bad: #dc2626;
+    /* 背景：贴近图片的深蓝底 */
+    --bg: #081b2f;
+    --card: #0d2540;
+
+    /* 线条：青蓝色半透明，模拟发光边框 */
+    --line: rgba(0, 228, 255, 0.25);
+    --line2: rgba(0, 228, 255, 0.12);
+
+    /* 文字：纯白 + 浅灰层级 */
+    --ink: #ffffff;
+    --ink2: #e2e8f0;
+    --mute: #94a3b8;
+    --mute2: #64748b;
+
+    /* 品牌与状态色：提亮适配暗底 */
+    --brand: #00e4ff;        /* 主青色（图片核心色） */
+    --brand2: #36cfc9;
+    --good: #34d399;
+    --warn: #ffb300;         /* 图片中的橙黄 */
+    --bad: #f87171;
     --info: #0891b2;
-    --shadow: 0 2px 12px rgba(16, 24, 40, .06);
-    --radius: 16px;
+
+    /* 阴影：加深 + 青色发光感 */
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0, 228, 255, 0.05);
+    --radius: 6px;           /* 图片偏方角，减小圆角 */
 }
 
 * {
@@ -26,6 +35,8 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
     background: var(--bg);
+    /* 增加径向渐变，模拟大屏中心微亮 */
+    background-image: radial-gradient(circle at 50% 0%, #0f2b4d 0%, var(--bg) 100%);
     color: var(--ink2);
     line-height: 1.6
 }
@@ -38,8 +49,10 @@ body {
 
 /* ---------- header ---------- */
 .site-header {
-    background: linear-gradient(135deg, #1e1b4b, #4338ca 55%, #6366f1);
-    box-shadow: 0 2px 16px rgba(30, 27, 75, .25)
+    /* 匹配图片顶部深蓝+青色发光 */
+    background: linear-gradient(135deg, #081b2f, #0d2540 55%, #081b2f);
+    border-bottom: 2px solid var(--line);
+    box-shadow: 0 2px 20px rgba(0, 228, 255, 0.15)
 }
 
 .nav {
@@ -54,17 +67,18 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #fff;
+    color: var(--brand); /* 标题用青色 */
     text-decoration: none;
     font-weight: 700;
     font-size: 18px;
-    letter-spacing: .5px
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(0, 228, 255, 0.4)
 }
 
 .logo {
     width: 30px;
     height: 30px;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .25))
+    filter: drop-shadow(0 0 5px rgba(0, 228, 255, 0.5))
 }
 
 .nav-links {
@@ -76,22 +90,25 @@ body {
 .nav-links a {
     display: block;
     padding: 8px 16px;
-    border-radius: 999px;
-    color: #e0e7ff;
+    border-radius: 4px;
+    color: var(--ink2);
     text-decoration: none;
     font-size: 14px;
-    transition: .2s
+    transition: .2s;
+    border: 1px solid transparent
 }
 
 .nav-links a:hover {
-    background: rgba(255, 255, 255, .14);
-    color: #fff
+    background: rgba(0, 228, 255, 0.1);
+    color: var(--brand);
+    border-color: rgba(0, 228, 255, 0.3)
 }
 
 .nav-links a.on {
-    background: #fff;
+    background: rgba(0, 228, 255, 0.15);
     color: var(--brand);
-    font-weight: 600
+    font-weight: 600;
+    border-color: var(--brand)
 }
 
 /* ---------- hero / heads ---------- */
@@ -103,7 +120,8 @@ body {
     font-size: 30px;
     font-weight: 750;
     color: var(--ink);
-    letter-spacing: -.5px
+    letter-spacing: -.5px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.2)
 }
 
 .lede {
@@ -146,7 +164,17 @@ body {
     border-radius: var(--radius);
     padding: 18px 20px;
     box-shadow: var(--shadow);
-    border: 1px solid var(--line)
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden
+}
+
+.kpi::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 30px; height: 2px;
+    background: var(--brand)
 }
 
 .kpi .lab {
@@ -157,9 +185,10 @@ body {
 .kpi .val {
     font-size: 24px;
     font-weight: 750;
-    color: var(--ink);
+    color: var(--brand); /* KPI数字用青色高亮 */
     margin-top: 4px;
-    letter-spacing: -.5px
+    letter-spacing: -.5px;
+    text-shadow: 0 0 8px rgba(0, 228, 255, 0.3)
 }
 
 .kpi .sub {
@@ -181,7 +210,10 @@ body {
 .card h2 {
     font-size: 17px;
     font-weight: 650;
-    color: var(--ink)
+    color: var(--ink);
+    border-left: 3px solid var(--brand);
+    padding-left: 8px;
+    margin-bottom: 8px
 }
 
 .card .desc {
@@ -191,7 +223,8 @@ body {
 }
 
 .card code {
-    background: #f3f4f6;
+    background: rgba(255,255,255,.08);
+    color: var(--brand);
     padding: 1px 6px;
     border-radius: 4px;
     font-size: 12px
@@ -250,18 +283,20 @@ body {
 .entry-tag {
     display: inline-block;
     align-self: flex-start;
-    background: rgba(79, 70, 229, .1);
+    background: rgba(0, 228, 255, .15);
     color: var(--brand);
     font-size: 12px;
     font-weight: 600;
     padding: 4px 12px;
-    border-radius: 999px;
-    margin-bottom: 12px
+    border-radius: 4px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(0, 228, 255, 0.3)
 }
 
 .entry-tag.alt {
-    background: rgba(5, 150, 105, .1);
-    color: var(--good)
+    background: rgba(52, 211, 153, .15);
+    color: var(--good);
+    border-color: rgba(52, 211, 153, 0.3)
 }
 
 .entry-card h2 {
@@ -286,42 +321,48 @@ body {
 }
 
 .entry-meta li {
-    background: #f8fafc;
+    background: rgba(255,255,255,.05);
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 5px 11px;
-    font-size: 12.5px;
+    font-size: 13px;
     color: var(--mute)
 }
 
 .entry-meta b {
-    color: var(--ink)
+    color: var(--brand)
 }
 
 .btn {
     display: inline-block;
     text-align: center;
     text-decoration: none;
-    background: var(--brand);
-    color: #fff;
+    background: rgba(0, 228, 255, 0.2);
+    color: var(--brand);
     font-weight: 600;
     font-size: 14px;
     padding: 11px 20px;
-    border-radius: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--brand);
     transition: .2s
 }
 
 .btn:hover {
-    background: #4338ca;
-    transform: translateY(-1px)
+    background: var(--brand);
+    color: #081b2f;
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px rgba(0, 228, 255, 0.4)
 }
 
 .btn.alt {
-    background: var(--good)
+    background: rgba(52, 211, 153, 0.2);
+    color: var(--good);
+    border-color: var(--good)
 }
 
 .btn.alt:hover {
-    background: #047857
+    background: var(--good);
+    color: #081b2f
 }
 
 /* ---------- architecture ---------- */
@@ -349,9 +390,9 @@ body {
 }
 
 .arch-node {
-    background: #f8fafc;
+    background: rgba(255,255,255,.05);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 4px;
     padding: 14px 20px;
     text-align: center;
     font-size: 14px;
@@ -369,14 +410,15 @@ body {
 }
 
 .arch-node.hl {
-    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-    border-color: #c7d2fe;
-    color: var(--brand)
+    background: rgba(0, 228, 255, 0.1);
+    border-color: var(--brand);
+    color: var(--brand);
+    box-shadow: 0 0 10px rgba(0, 228, 255, 0.2)
 }
 
 .arch-arrow {
     font-size: 22px;
-    color: var(--mute2);
+    color: var(--brand);
     font-weight: 700
 }
 
@@ -384,7 +426,7 @@ body {
 .table-wrap {
     max-height: 440px;
     overflow: auto;
-    border-radius: 10px;
+    border-radius: var(--radius);
     border: 1px solid var(--line2)
 }
 
@@ -398,7 +440,8 @@ th, td {
     padding: 9px 12px;
     text-align: right;
     border-bottom: 1px solid var(--line2);
-    white-space: nowrap
+    white-space: nowrap;
+    color: var(--ink2)
 }
 
 th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) {
@@ -408,14 +451,15 @@ th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) {
 th {
     color: var(--mute);
     font-weight: 600;
-    background: #fafbfc;
+    background: rgba(255,255,255,.03);
     position: sticky;
     top: 0;
-    z-index: 1
+    z-index: 1;
+    border-bottom: 1px solid var(--line)
 }
 
 tbody tr:hover {
-    background: #f8fafc
+    background: rgba(0, 228, 255, 0.05)
 }
 
 /* ---------- reason list ---------- */
@@ -436,31 +480,31 @@ tbody tr:hover {
     display: flex;
     gap: 10px;
     align-items: flex-start;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
+    background: rgba(248, 113, 113, .08);
+    border: 1px solid rgba(248, 113, 113, .2);
     border-left: 4px solid var(--bad);
-    border-radius: 10px;
+    border-radius: 4px;
     padding: 12px 14px;
     font-size: 13px;
     color: var(--mute)
 }
 
 .reason.good {
-    background: #ecfdf5;
-    border-color: #a7f3d0;
+    background: rgba(52, 211, 153, .08);
+    border-color: rgba(52, 211, 153, .2);
     border-left-color: var(--good)
 }
 
 .reason.neutral {
-    background: #f0f9ff;
-    border-color: #bae6fd;
-    border-left-color: var(--info)
+    background: rgba(0, 228, 255, .08);
+    border-color: rgba(0, 228, 255, .2);
+    border-left-color: var(--brand)
 }
 
 .reason b {
     color: var(--ink);
     flex: 0 0 108px;
-    font-size: 13.5px
+    font-size: 14px
 }
 
 .reason span {
