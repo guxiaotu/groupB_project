@@ -1,0 +1,3 @@
+-- 初始化citus
+CREATE EXTENSION IF NOT EXISTS citus;
+CREATE EXTENSION IF NOT EXISTS citus_columnar;

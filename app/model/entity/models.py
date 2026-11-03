@@ -4,7 +4,7 @@ from sqlmodel import Field, SQLModel
 
 
 class IndustryChartData(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+    # id: int | None = Field(default=None, primary_key=True)
 
     # -------- 维度 --------
     chart_type: str = Field(description="分组维度")
@@ -40,7 +40,7 @@ class IndustryChartData(SQLModel, table=True):
 
 
 class ReviewChartData(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+    # id: int | None = Field(default=None, primary_key=True)
 
     # -------- 维度 --------
     analysis_type: str = Field(description="分组大类：negative / motivation / positive")

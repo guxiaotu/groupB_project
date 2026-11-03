@@ -1,3 +1,6 @@
+-- 设置客户端连接使用的编码格式
+SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+
 CREATE TABLE IF NOT EXISTS industry_chart_data
 (
     id                           BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键',
@@ -56,5 +59,4 @@ CREATE TABLE IF NOT EXISTS review_chart_data
 
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci
-    COMMENT = '评论图表分析数据';
+  COLLATE = utf8mb4_0900_ai_ci COMMENT = '评论图表分析数据';

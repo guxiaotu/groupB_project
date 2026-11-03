@@ -1,8 +1,5 @@
 CREATE TABLE IF NOT EXISTS industry_chart_data
 (
-    -- -------- 主键：PG 17 官方推荐 IDENTITY --------
-    id                           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-
     -- -------- 维度 --------
     chart_type                   VARCHAR(64)  NOT NULL,
     item_key                     VARCHAR(128) NOT NULL,
@@ -38,7 +35,7 @@ CREATE TABLE IF NOT EXISTS industry_chart_data
     sales_share_pct              NUMERIC(9, 6),
     revenue_share_pct            NUMERIC(9, 6),
     avg_sales_share_pct          NUMERIC(9, 6)
-);
+) USING columnar;
 
 -- ===== 列注释 =====
 COMMENT ON COLUMN industry_chart_data.chart_type IS '分组维度';
@@ -66,7 +63,6 @@ COMMENT ON COLUMN industry_chart_data.avg_sales_share_pct IS '单品均销量占
 
 CREATE TABLE IF NOT EXISTS review_chart_data
 (
-    id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     analysis_type   VARCHAR(32)  NOT NULL,
     topic_id        VARCHAR(64)  NOT NULL,
     topic_name      VARCHAR(200) NOT NULL,
@@ -75,7 +71,7 @@ CREATE TABLE IF NOT EXISTS review_chart_data
     sample_count    INTEGER,
     share_pct       NUMERIC(9, 6),
     reason          VARCHAR(200)
-);
+) USING columnar;
 
 -- ===== 列注释 =====
 COMMENT ON COLUMN review_chart_data.analysis_type IS '分组大类：negative / motivation / positive';
