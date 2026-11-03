@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS industry_chart_data
     -- -------- 占比口径（price / brand）--------
     sales_share_pct              NUMERIC(9, 6),
     revenue_share_pct            NUMERIC(9, 6),
-    avg_sales_share_pct          NUMERIC(9, 6)
+    avg_sales_share_pct          NUMERIC(9, 6),
+    sample_share_pct             NUMERIC(9, 6)
 ) USING columnar;
 
 -- ===== 列注释 =====
@@ -60,6 +61,7 @@ COMMENT ON COLUMN industry_chart_data.rating_score_pct IS '评分达标占比%';
 COMMENT ON COLUMN industry_chart_data.sales_share_pct IS '销量占比%';
 COMMENT ON COLUMN industry_chart_data.revenue_share_pct IS '销售额占比%';
 COMMENT ON COLUMN industry_chart_data.avg_sales_share_pct IS '单品均销量占比%';
+COMMENT ON COLUMN industry_chart_data.sample_share_pct IS '该分组样本总量占比%';
 
 CREATE TABLE IF NOT EXISTS review_chart_data
 (

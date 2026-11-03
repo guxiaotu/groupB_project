@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS industry_chart_data
     -- -------- 占比口径（price / brand）--------
     sales_share_pct              NUMERIC(9, 2) COMMENT '销量占比%',
     revenue_share_pct            NUMERIC(9, 2) COMMENT '销售额占比%',
-    avg_sales_share_pct          NUMERIC(9, 2) COMMENT '单品均销量占比%'
+    avg_sales_share_pct          NUMERIC(9, 2) COMMENT '单品均销量占比%',
+    sample_share_pct             NUMERIC(9, 6) COMMENT '该分组样本总量占比%'
 
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

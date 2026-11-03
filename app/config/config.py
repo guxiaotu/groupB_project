@@ -1,6 +1,6 @@
+from minio import Minio
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 
@@ -13,9 +13,13 @@ class Settings(BaseSettings):
     db_host: str
     db_port: int
     db_name: str
+    endpoint: str
+    minio_port: int
+    access_key: str
+    secret_key: str
 
     @property
-    def database_url(self)->str :
+    def database_url(self) -> str:
         return (
             f"{self.db_protocol}://{self.db_user}:{self.db_password}"
             f"@{self.db_host}:{self.db_port}/{self.db_name}"
@@ -24,8 +28,16 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
+minio_client = Minio(
+    endpoint=f"{settings.endpoint}:{settings.minio_port}",
+    access_key=settings.access_key,
+    secret_key=settings.secret_key,
+    secure=False,
+)
+
 # mysql 异步协议：mysql+aiomysql://
-# postgresql 异步协议：postgresql+asyncpg:
+# postgresql 异步协议：postgresql+asyncpg，但是由于polars不支持异步，
+# 所以使用postgresql同步协议，使用原生asyncpg完成异步写入数据
 engine = create_async_engine(
     url=settings.database_url,
     echo=True,  # 调试打印SQL语句
@@ -52,14 +64,3 @@ async def get_session():
         except Exception:
             await session.rollback()
             raise
-
-
-async def create_tables():
-    async with engine.begin() as conn:
-        # run_sync 用来在异步连接上执行同步的metadata操作
-        await conn.run_sync(SQLModel.metadata.create_all)
-
-
-async def drop_tables():
-    async with engine.begin() as conn:
-        await conn.run_sync(SQLModel.metadata.drop_all)

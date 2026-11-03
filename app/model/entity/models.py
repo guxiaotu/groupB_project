@@ -3,8 +3,10 @@ from decimal import Decimal
 from sqlmodel import Field, SQLModel
 
 
+# 由于采用了citus的列存储（不需要主键索引），所以polars读取csv直接存入数据库。
+# 以下SQLModel是为MySQL服务的
 class IndustryChartData(SQLModel, table=True):
-    # id: int | None = Field(default=None, primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
 
     # -------- 维度 --------
     chart_type: str = Field(description="分组维度")
@@ -16,31 +18,43 @@ class IndustryChartData(SQLModel, table=True):
     product_count: int | None = Field(default=None, description="该分组产品数")
     cumulative_product_count: int | None = Field(default=None, description="累计产品数")
 
-    valid_sales_count: int | None = Field(default=None, description="有有效销量数据的产品数")
+    valid_sales_count: int | None = Field(
+        default=None, description="有有效销量数据的产品数"
+    )
     monthly_sales: int | None = Field(default=None, description="月销量合计")
     avg_monthly_sales: Decimal | None = Field(default=None)
     sales_rank: int | None = Field(default=None, description="销量排名")
-    sales_cumulative_share_pct: Decimal | None = Field(default=None, description="销量累计占比 %")
+    sales_cumulative_share_pct: Decimal | None = Field(
+        default=None, description="销量累计占比 %"
+    )
 
-    valid_revenue_count: int | None = Field(default=None, description="有有效销售额数据的产品数")
+    valid_revenue_count: int | None = Field(
+        default=None, description="有有效销售额数据的产品数"
+    )
     monthly_revenue: Decimal | None = Field(default=None)
     revenue_rank: int | None = Field(default=None, description="销售额排名")
-    revenue_cumulative_share_pct: Decimal | None = Field(default=None, description="销售额累计占比 %")
+    revenue_cumulative_share_pct: Decimal | None = Field(
+        default=None, description="销售额累计占比 %"
+    )
 
-    valid_rating_count: int | None = Field(default=None, description="有有效评分数据的产品数")
+    valid_rating_count: int | None = Field(
+        default=None, description="有有效评分数据的产品数"
+    )
     avg_rating: Decimal | None = Field(default=None, description="平均评分 0~5")
     rating_score_pct: Decimal | None = Field(default=None, description="评分达标占比 %")
 
     sales_share_pct: Decimal | None = Field(default=None, description="销量占比 %")
     revenue_share_pct: Decimal | None = Field(default=None, description="销售额占比 %")
-    avg_sales_share_pct: Decimal | None = Field(default=None, description="单品均销量占比 %")
+    avg_sales_share_pct: Decimal | None = Field(
+        default=None, description="单品均销量占比 %"
+    )
 
     sample_count: int = Field(default=0, description="该分组样本量")
     sample_share_pct: Decimal | None = Field(default=None, description="样本占比 %")
 
 
 class ReviewChartData(SQLModel, table=True):
-    # id: int | None = Field(default=None, primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
 
     # -------- 维度 --------
     analysis_type: str = Field(description="分组大类：negative / motivation / positive")
