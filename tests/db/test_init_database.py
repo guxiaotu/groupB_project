@@ -3,7 +3,7 @@ import logging
 import pytest
 from sqlalchemy import text
 
-from app.config.database import engine, create_tables, drop_tables
+from app.config.database import create_tables, drop_tables, engine
 from app.service.x_service import save_data
 
 logger = logging.getLogger(__name__)

@@ -1,0 +1,76 @@
+{% extends "base.jinja2" %}
+{% block title %}评论分析 · 数据可视化平台{% endblock %}
+{% set active = 'review' %}
+
+{% block head_extra %}
+    <script>window.REVIEW = {{ review.payload|tojson }};</script>
+{% endblock %}
+
+{% block content %}
+    <section class="page-head">
+        <h1>评论分析</h1>
+        <p class="lede">从低星评论提炼痛点，从高星评论提炼卖点，从购买评论提炼动机。</p>
+    </section>
+
+    <section class="kpis">
+        <div class="kpi">
+            <div class="lab">负面样本</div>
+            <div class="val">{{ '{:,}'.format(review.summary.sample_negative) }}</div>
+            <div class="sub">{{ review.summary.negative_total }} 条主题匹配</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">正面样本</div>
+            <div class="val">{{ '{:,}'.format(review.summary.sample_positive) }}</div>
+            <div class="sub">{{ review.summary.positive_total }} 条主题匹配</div>
+        </div>
+        <div class="kpi">
+            <div class="lab">动机样本</div>
+            <div class="val">{{ '{:,}'.format(review.summary.sample_motivation) }}</div>
+            <div class="sub">{{ review.summary.motivation_total }} 条主题匹配</div>
+        </div>
+    </section>
+
+    <div class="card">
+        <h2>负面主题 TOP{{ review.payload.negative.labels|length }}</h2>
+        <p class="desc">低星评论中的高频痛点，占比越大说明产品缺陷越集中。</p>
+        <div id="neg" class="chart"></div>
+        <div class="reason-list">
+            {% for r in review.payload.negative.rows %}
+                <div class="reason"><b>{{ r.topic_name }}</b><span>{{ r.reason }}</span></div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>正面主题 TOP{{ review.payload.positive.labels|length }}</h2>
+        <p class="desc">高星评论中的口碑卖点，可直接转化为详情页话术与选品标准。</p>
+        <div id="pos" class="chart"></div>
+        <div class="reason-list">
+            {% for r in review.payload.positive.rows %}
+                <div class="reason good"><b>{{ r.topic_name }}</b><span>{{ r.reason }}</span></div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>购买动机 TOP{{ review.payload.motivation.labels|length }}</h2>
+        <p class="desc">用户为什么下单，决定广告投放与卖点排序的优先级。</p>
+        <div id="mot" class="chart"></div>
+        <div class="reason-list">
+            {% for r in review.payload.motivation.rows %}
+                <div class="reason neutral"><b>{{ r.topic_name }}</b><span>{{ r.reason }}</span></div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>三类主题占比对照</h2>
+        <p class="desc">同一坐标轴下对比负面 / 正面 / 动机三组主题分布。</p>
+        <div id="all" class="chart tall"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/echarts.min.js"></script>
+    <script src="/static/js/review.js"></script>
+{% endblock %}

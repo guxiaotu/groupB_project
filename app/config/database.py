@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     db_name: str
 
     @property
-    def database_url(self) -> str:
+    def database_url(self)->str :
         return (
             f"{self.db_protocol}://{self.db_user}:{self.db_password}"
             f"@{self.db_host}:{self.db_port}/{self.db_name}"

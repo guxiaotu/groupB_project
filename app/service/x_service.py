@@ -1,4 +1,3 @@
-import asyncio
 
 from app.dao import x_dao
 from app.data_mining import data_mining
