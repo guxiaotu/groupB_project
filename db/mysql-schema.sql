@@ -54,7 +54,7 @@ CREATE INDEX idx_industry_snapshot_at ON industry_chart_data (snapshot_at);
 CREATE INDEX idx_industry_item_key ON industry_chart_data (item_key);
 
 
-CREATE TABLE review_chart_data
+CREATE TABLE IF NOT EXISTS review_chart_data
 (
     id              BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     analysis_type   VARCHAR(32)  NOT NULL,
