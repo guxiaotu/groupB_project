@@ -1,9 +1,14 @@
 import polars as pl
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.config import get_session
 from app.model import Industry, Review
 
 
 async def query_review() -> Review:
+
+    session: AsyncSession = get_session()
+
     """按 analysis_type 分组：negative / positive / motivation"""
     df = pl.read_csv("")
     payload: dict[str, dict] = {}
@@ -40,18 +45,16 @@ async def query_review() -> Review:
     ).to_dicts()[0]
 
     # 2. 构建返回对象
-    return(
-        Review(
-            payload=payload,
-            summary=Review.Summary(
-                negative_total=totals["negative"],
-                positive_total=totals["positive"],
-                motivation_total=totals["motivation"],
-                sample_negative=samples.get("negative", 0),
-                sample_positive=samples.get("positive", 0),
-                sample_motivation=samples.get("motivation", 0),
-            ),
-        )
+    return Review(
+        payload=payload,
+        summary=Review.Summary(
+            negative_total=totals["negative"],
+            positive_total=totals["positive"],
+            motivation_total=totals["motivation"],
+            sample_negative=samples.get("negative", 0),
+            sample_positive=samples.get("positive", 0),
+            sample_motivation=samples.get("motivation", 0),
+        ),
     )
 
 

@@ -4,8 +4,8 @@ from sqlmodel import Field, SQLModel
 
 
 # 由于采用了citus的列存储（不需要主键索引），所以polars读取csv直接存入数据库。
-# 以下SQLModel是为MySQL服务的
 class IndustryChartData(SQLModel, table=True):
+    # 主键字段（列存表通常没有真正的物理主键约束，但 SQLModel 模型层需要指定 primary_key 标识）
     id: int | None = Field(default=None, primary_key=True)
 
     # -------- 维度 --------
@@ -54,6 +54,7 @@ class IndustryChartData(SQLModel, table=True):
 
 
 class ReviewChartData(SQLModel, table=True):
+    # 主键字段（列存表通常没有真正的物理主键约束，但 SQLModel 模型层需要指定 primary_key 标识）
     id: int | None = Field(default=None, primary_key=True)
 
     # -------- 维度 --------
