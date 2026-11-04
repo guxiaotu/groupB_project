@@ -54,6 +54,8 @@ class IndustryChartData(SQLModel, table=True):
 
 
 class ReviewChartData(SQLModel, table=True):
+    __tablename__ = "review_chart_data"
+
     # 主键字段（列存表通常没有真正的物理主键约束，但 SQLModel 模型层需要指定 primary_key 标识）
     id: int | None = Field(default=None, primary_key=True)
 

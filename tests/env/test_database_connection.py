@@ -8,6 +8,10 @@ logger = logging.getLogger(__name__)
 
 
 async def test_connection():
+    """
+    citus连接测试
+    :return:
+    """
     try:
         async with engine.connect() as conn:
             result = await conn.execute(text("SELECT version()"))
