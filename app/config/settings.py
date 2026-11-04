@@ -1,11 +1,17 @@
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
+from pathlib import Path
+
 from minio import Minio
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=BASE_DIR / ".env", extra="ignore")
 
     db_protocol: str
     db_user: str
@@ -27,7 +33,6 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-
 
 # Strip 'http://' or 'https://' and attach the port
 clean_host = settings.endpoint.replace("http://", "").replace("https://", "").strip("/")
@@ -60,8 +65,12 @@ AsyncSessionLocal = async_sessionmaker(
 
 
 # FastAPI依赖项，使用SessionLocal
-# 异步依赖项
-async def get_session():
+# 使用@asynccontextmanager可以独立使用session对象
+@asynccontextmanager
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
+    """
+    fastapi依赖注入使用
+    """
     async with AsyncSessionLocal() as session:
         try:
             yield session

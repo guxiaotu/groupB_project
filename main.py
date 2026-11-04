@@ -2,9 +2,11 @@ from fastapi import FastAPI, Request
 from starlette.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
 
-from app.api.routers import BASE_DIR, templates
+from app.config import BASE_DIR
+from app.api import templates
 from app.api.routers import router as api_router
-from app.view import query_industry, query_review
+from app.model import IndustryChartData, ReviewChartData
+from app.service import query_data
 
 app = FastAPI(title="智能商品统计分析系统")
 
@@ -24,7 +26,7 @@ async def index(request: Request):
         request=request,
         name="index.jinja2",
         context={
-            "industry": await query_industry(),
-            "review": await query_review(),
+            "industry": await query_data(IndustryChartData),
+            "review": await query_data(ReviewChartData),
         },
     )
