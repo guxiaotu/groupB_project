@@ -28,8 +28,13 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
+
+# Strip 'http://' or 'https://' and attach the port
+clean_host = settings.endpoint.replace("http://", "").replace("https://", "").strip("/")
+minio_endpoint = f"{clean_host}:{settings.minio_port}"
+
 minio_client = Minio(
-    endpoint=f"{settings.endpoint}:{settings.minio_port}",
+    endpoint=minio_endpoint,
     access_key=settings.access_key,
     secret_key=settings.secret_key,
     secure=False,

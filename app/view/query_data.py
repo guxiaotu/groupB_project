@@ -1,6 +1,6 @@
 import polars as pl
 
-from app.model.view.view_models import Review
+from app.model import Review
 
 
 async def query_review() -> dict:
@@ -40,19 +40,20 @@ async def query_review() -> dict:
     ).to_dicts()[0]
 
     # 2. 构建返回对象
-    print(Review(
-        payload=payload,
-        summary=Review.Summary(
-            negative_total=totals["negative"],
-            positive_total=totals["positive"],
-            motivation_total=totals["motivation"],
-            sample_negative=samples.get("negative", 0),
-            sample_positive=samples.get("positive", 0),
-            sample_motivation=samples.get("motivation", 0),
-        ),
-    ))
+    print(
+        Review(
+            payload=payload,
+            summary=Review.Summary(
+                negative_total=totals["negative"],
+                positive_total=totals["positive"],
+                motivation_total=totals["motivation"],
+                sample_negative=samples.get("negative", 0),
+                sample_positive=samples.get("positive", 0),
+                sample_motivation=samples.get("motivation", 0),
+            ),
+        )
+    )
 
 
 async def query_industry() -> dict:
     pass
-

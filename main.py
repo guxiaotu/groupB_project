@@ -4,7 +4,7 @@ from starlette.staticfiles import StaticFiles
 
 from app.api.routers import BASE_DIR, templates
 from app.api.routers import router as api_router
-from app.view.query_data import query_industry, query_review
+from app.view import query_industry, query_review
 
 app = FastAPI(title="智能商品统计分析系统")
 

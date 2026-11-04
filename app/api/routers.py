@@ -4,7 +4,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from app.view.query_data import query_industry, query_review
+from app.view import query_industry, query_review
 
 router = APIRouter()
 
@@ -12,7 +12,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # 模板
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
-
 
 
 @router.get(path="/industry", response_class=HTMLResponse, name="industry")
