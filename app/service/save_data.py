@@ -30,7 +30,7 @@ async def save_csv(table_name: str, bucket: str = "data", directory: str = "csv"
     conn = await asyncpg.connect(url)
 
     try:
-        logger.debug(f"\033[90m🔗 正在连接数据库...\033[0m")
+        logger.debug("\033[90m🔗 正在连接数据库...\033[0m")
         logger.debug(
             f"\033[90m📤 准备 COPY 入库，行数={len(records)}，列数={len(columns)}\033[0m"
         )
@@ -44,11 +44,9 @@ async def save_csv(table_name: str, bucket: str = "data", directory: str = "csv"
             f"\033[32m🎉 入库成功！表=[{table_name}]，写入行数={len(records)} COPY结果={result}\033[0m"
         )
 
-    except Exception as e:
-        logger.error(
-            f"\033[31m💥 入库失败！表=[{table_name}]，错误类型={type(e).__name__}，错误={e}\033[0m",
-            exc_info=True,
-        )
+    except Exception:
+        # ✅ 精简日志，logger.exception 会自动在下方打印异常类型和详细堆栈
+        logger.exception(f"\033[31m💥 入库失败！表=[{table_name}]\033[0m")
         raise
 
     finally:

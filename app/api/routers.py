@@ -1,12 +1,10 @@
-from pathlib import Path
-
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
+from app.config import BASE_DIR
 from app.model import IndustryChartData, ReviewChartData
 from app.service import query_data
-from app.config import BASE_DIR
 
 router = APIRouter()
 

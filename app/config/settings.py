@@ -67,7 +67,7 @@ AsyncSessionLocal = async_sessionmaker(
 # FastAPI依赖项，使用SessionLocal
 # 使用@asynccontextmanager可以独立使用session对象
 @asynccontextmanager
-async def get_session() -> AsyncGenerator[AsyncSession, None]:
+async def get_session() -> AsyncGenerator[AsyncSession]:
     """
     fastapi依赖注入使用
     """

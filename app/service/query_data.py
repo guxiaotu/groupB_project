@@ -8,7 +8,7 @@ from app.config.settings import get_session
 T = TypeVar("T", bound=SQLModel)
 
 
-async def query_data(model: T) -> list[T]:
+async def query_data[T: SQLModel](model: T) -> list[T]:
     async with get_session() as session:
         # 1. 获取模型中除了 'id' 以外的所有数据库列
         columns = [col for col in model.__table__.columns if col.name != "id"]

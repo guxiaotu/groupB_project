@@ -2,9 +2,9 @@ from fastapi import FastAPI, Request
 from starlette.responses import HTMLResponse
 from starlette.staticfiles import StaticFiles
 
-from app.config import BASE_DIR
 from app.api import templates
 from app.api.routers import router as api_router
+from app.config import BASE_DIR
 from app.model import IndustryChartData, ReviewChartData
 from app.service import query_data
 
