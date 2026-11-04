@@ -1,9 +1,9 @@
 import polars as pl
 
-from app.model import Review
+from app.model import Industry, Review
 
 
-async def query_review() -> dict:
+async def query_review() -> Review:
     """按 analysis_type 分组：negative / positive / motivation"""
     df = pl.read_csv("")
     payload: dict[str, dict] = {}
@@ -40,7 +40,7 @@ async def query_review() -> dict:
     ).to_dicts()[0]
 
     # 2. 构建返回对象
-    print(
+    return(
         Review(
             payload=payload,
             summary=Review.Summary(
@@ -55,5 +55,5 @@ async def query_review() -> dict:
     )
 
 
-async def query_industry() -> dict:
+async def query_industry() -> Industry:
     pass

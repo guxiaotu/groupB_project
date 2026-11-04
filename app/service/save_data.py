@@ -11,9 +11,9 @@ from app.config import minio_client, settings
 logger = logging.getLogger(__name__)
 
 
-async def save_csv(table_name: str, bucket: str = "data"):
+async def save_csv(table_name: str, bucket: str = "data", directory: str = "csv"):
     # 1. 从 MinIO 拿对象
-    response = minio_client.get_object(bucket, f"csv/{table_name}.csv")
+    response = minio_client.get_object(bucket, f"{directory}/{table_name}.csv")
 
     # 2. 在线程池中异步读取 CSV，避免阻塞 asyncio 事件循环
     df = await asyncio.to_thread(pl.read_csv, io.BytesIO(response.read()))
