@@ -4,7 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.14"
 dependencies = [
     "asyncpg>=0.32.0",
-    "fastapi[standard,standard-no-fastapi-cloud-cli]>=0.162.0",
+    "fastapi[standard]>=0.162.0",
     "minio>=7.2.20",
     "polars>=2.1.0",
     "psycopg2-binary>=2.9.13",
