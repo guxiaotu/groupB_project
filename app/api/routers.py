@@ -3,8 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from app.config import BASE_DIR
-from app.model import IndustryChartData, ReviewChartData
-from app.service import query_data
+from app.view import get_industry, get_review
 
 router = APIRouter()
 
@@ -18,7 +17,7 @@ async def industry(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="industry.jinja2",
-        context={"industry": await query_data(IndustryChartData)},
+        context={"industry": await get_industry()},
     )
 
 
@@ -28,5 +27,5 @@ async def review(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="review.jinja2",
-        context={"review": await query_data(ReviewChartData)},
+        context={"review": await get_review()},
     )
