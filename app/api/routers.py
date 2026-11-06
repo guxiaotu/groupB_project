@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from app.config import BASE_DIR
-from app.view import get_industry, get_review
+from app.service import save_csv
 
 router = APIRouter()
 
@@ -17,7 +17,7 @@ async def industry(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="industry.jinja2",
-        context={"industry": await get_industry()},
+        context={"industry": request.app.state.industry_view},
     )
 
 
@@ -27,5 +27,10 @@ async def review(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="review.jinja2",
-        context={"review": await get_review()},
+        context={"review": request.app.state.review_view},
     )
+
+
+@router.get(path="/api/webhook/{file_name}")
+async def db_update(file_name: str):
+    await save_csv(file_name)

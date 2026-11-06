@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [tool.fastapi]
-entrypoint = "main:app"
+entrypoint = "main:application"
 
 [dependency-groups]
 dev = [
