@@ -52,4 +52,4 @@ async def save_csv(file_name: str, bucket: str = "data", directory: str = "csv")
 
     finally:
         await conn.close()
-        logger.debug(f"\033[90m🔌 数据库连接已关闭！\033[0m")
+        logger.debug("\033[90m🔌 数据库连接已关闭！\033[0m")
