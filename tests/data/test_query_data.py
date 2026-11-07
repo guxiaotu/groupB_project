@@ -1,4 +1,4 @@
-from app.model import IndustryChartData, ReviewChartData
+from app.model.entity import IndustryChartData, ReviewChartData
 from app.service import query_data
 
 

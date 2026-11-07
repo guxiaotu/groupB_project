@@ -2,7 +2,8 @@ from collections import defaultdict
 from decimal import Decimal
 from typing import Any
 
-from app.model import Industry, IndustryChartData, Review, ReviewChartData
+from app.model.entity import IndustryChartData, ReviewChartData
+from app.model.view import Industry, Review
 from app.service import query_data
 
 

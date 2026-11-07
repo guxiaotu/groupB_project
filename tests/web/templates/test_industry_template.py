@@ -1,7 +1,4 @@
-from pathlib import Path
 
-import pytest
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 # ── mock 数据 ──────────────────────────────────────────
@@ -64,15 +61,6 @@ def make_mock_industry():
             },
         },
     }
-
-
-@pytest.fixture
-def jinja_env():
-    templates_dir = Path(__file__).parent.parent.parent / "templates"
-    return Environment(
-        loader=FileSystemLoader(templates_dir),
-        autoescape=select_autoescape(["html", "jinja2"]),
-    )
 
 
 def test_industry_template_renders(jinja_env):
