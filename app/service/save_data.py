@@ -2,7 +2,6 @@ import asyncio
 import io
 import logging
 import re
-from pathlib import Path
 
 import asyncpg
 import polars as pl
@@ -30,6 +29,8 @@ async def save_csv(file_name: str, bucket: str = "data", directory: str = "csv")
     logger.info(f"\033[36m📥 开始处理文件{file_name}，bucket={bucket}\033[0m")
     conn = await asyncpg.connect(url)
 
+    # 清理文件名中日起格式和文件后缀名
+    table_name: str = re.sub(r'_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.[^.]+$', '', file_name)
     try:
         logger.debug("\033[90m🔗 正在连接数据库...\033[0m")
         logger.debug(
@@ -37,7 +38,7 @@ async def save_csv(file_name: str, bucket: str = "data", directory: str = "csv")
         )
 
         result = await conn.copy_records_to_table(
-            table_name=Path(file_name).stem, records=records, columns=columns
+            table_name=table_name, records=records, columns=columns
         )
 
         # COPY 返回值类似 "COPY 122"
