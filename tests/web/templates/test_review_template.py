@@ -1,7 +1,6 @@
 # tests/test_review_template.py
 
 
-
 # ── mock 数据 ──────────────────────────────────────────
 def make_mock_review():
     return {

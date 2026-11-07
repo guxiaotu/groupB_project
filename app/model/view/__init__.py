@@ -1,3 +1,3 @@
-from .view_models import DashboardData, Industry, Review
+from .view_models import Industry, Review
 
-__all__ = ["DashboardData", "Industry", "Review"]
+__all__ = ["Industry", "Review"]

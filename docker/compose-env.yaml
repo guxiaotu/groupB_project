@@ -1,0 +1,49 @@
+services:
+  mysql:
+    image: docker.1ms.run/mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: fastapicloud
+      MYSQL_DATABASE: test
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./mysql:/docker-entrypoint-initdb.d
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    depends_on:
+      - citus
+
+  # 无主键列存储
+  citus:
+    image: docker.1ms.run/citusdata/citus
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fastapicloud
+      POSTGRES_DB: test
+    volumes:
+      - citus:/var/lib/postgresql/
+      - ./pgsql:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  silo:
+    image: docker.1ms.run/pgsty/silo
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: fastapicloud
+    volumes:
+      - silo:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
+
+volumes:
+  mysql:
+  citus:
+  silo:

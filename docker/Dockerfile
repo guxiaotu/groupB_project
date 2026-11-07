@@ -1,7 +1,11 @@
+# ---- 全局 ARG ----
+ARG APP_DIR=/web
+
 # ---- builder ----
 FROM docker.m.daocloud.io/python:3.14-alpine AS builder
 
-WORKDIR /app
+ARG APP_DIR
+WORKDIR $APP_DIR
 
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
@@ -10,7 +14,7 @@ ENV UV_NO_DEV=1
 ENV UV_NO_INSTALL_PROJECT=1
 
 # Install uv tool
-COPY --from=ghcr.m.daocloud.io/astral-sh/uv:0.12.13 /uv /usr/local/bin/uv
+COPY --from=ghcr.m.daocloud.io/astral-sh/uv /uv /usr/local/bin/uv
 
 # Download dependencies by use cache layer(exclude dev dependencies)
 COPY pyproject.toml uv.lock ./
@@ -31,22 +35,18 @@ RUN uv sync --locked
 # ---- build app ----
 FROM docker.m.daocloud.io/python:3.14-alpine
 
-WORKDIR /app
+ARG APP_DIR
+WORKDIR $APP_DIR
 
 # Add virtualenv to PATH so uvicorn can find the packages
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="$APP_DIR/.venv/bin:$PATH"
 ENV PYTHONUNBUFFERED=1
 # No need to download python packages in production
 ENV UV_PYTHON_DOWNLOADS=never
 
-COPY --from=builder /app /app
+COPY --from=builder $APP_DIR $APP_DIR
 
 EXPOSE 8000
-
-RUN apk add --no-cache tini
-
-# Use tini as init process
-ENTRYPOINT ["/sbin/tini", "--"]
 
 # Use uvicorn run asgi server
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

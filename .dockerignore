@@ -9,3 +9,5 @@ docker/
 data/
 tests/
 db/
+.sh
+.bat

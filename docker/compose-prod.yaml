@@ -1,4 +1,18 @@
 services:
+  web:
+    image: groupb-project-web
+    build:
+      context: ..                    # 指向项目根目录
+      dockerfile: docker/Dockerfile  # Dockerfile 路径（相对于 context）
+    restart: unless-stopped
+    volumes:
+      - .env:/web/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - citus
+      - mysql
+
   mysql:
     image: docker.1ms.run/mysql:8.0
     restart: unless-stopped
@@ -13,10 +27,13 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+    depends_on:
+      - citus
 
   # 无主键列存储
   citus:
     image: docker.1ms.run/citusdata/citus
+    platform: linux/amd64               # 没有arm平台
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
