@@ -1,6 +1,15 @@
 from pydantic import BaseModel
 
 
+class DashboardData(BaseModel):
+    """
+    组合所有的VO视图对象
+    """
+
+    industry: Industry
+    review: Review
+
+
 class Industry(BaseModel):
     """
     VO for Industry
