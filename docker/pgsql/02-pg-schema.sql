@@ -1,4 +1,5 @@
-CREATE TABLE IF NOT EXISTS industry_chart_data
+DROP TABLE IF EXISTS industry_chart_data;
+CREATE TABLE industry_chart_data
 (
     -- -------- 维度 --------
     chart_type                   VARCHAR(64)  NOT NULL,
@@ -63,7 +64,8 @@ COMMENT ON COLUMN industry_chart_data.revenue_share_pct IS '销售额占比%';
 COMMENT ON COLUMN industry_chart_data.avg_sales_share_pct IS '单品均销量占比%';
 COMMENT ON COLUMN industry_chart_data.sample_share_pct IS '该分组样本总量占比%';
 
-CREATE TABLE IF NOT EXISTS review_chart_data
+DROP TABLE IF EXISTS review_chart_data;
+CREATE TABLE review_chart_data
 (
     analysis_type   VARCHAR(32)  NOT NULL,
     topic_id        VARCHAR(64)  NOT NULL,

@@ -1,7 +1,8 @@
 -- 设置客户端连接使用的编码格式
 SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS industry_chart_data
+DROP TABLE IF EXISTS industry_chart_data;
+CREATE TABLE industry_chart_data
 (
     id                           BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键',
 
@@ -46,7 +47,8 @@ CREATE TABLE IF NOT EXISTS industry_chart_data
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT = '行业图表快照数据';
 
-CREATE TABLE IF NOT EXISTS review_chart_data
+DROP TABLE IF EXISTS review_chart_data;
+CREATE TABLE review_chart_data
 (
     id              BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键',
     analysis_type   VARCHAR(32)  NOT NULL COMMENT '分组大类：negative / motivation / positive',
