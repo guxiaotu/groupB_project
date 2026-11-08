@@ -11,24 +11,6 @@ services:
       - "8000:8000"
     depends_on:
       - citus
-      - mysql
-
-  mysql:
-    image: docker.1ms.run/mysql:8.0
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: fastapicloud
-      MYSQL_DATABASE: test
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql:/var/lib/mysql
-      - ./mysql:/docker-entrypoint-initdb.d
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-    depends_on:
-      - citus
 
   # 无主键列存储
   citus:
@@ -60,6 +42,8 @@ services:
       - "9000:9000"
       - "9001:9001"
     command: server /data --console-address ":9001"
+    depends_on:
+      - web
     healthcheck:
       test: [ "CMD", "mc", "ready", "local" ]
       interval: 5s
