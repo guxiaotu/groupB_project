@@ -36,12 +36,41 @@ services:
     environment:
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: fastapicloud
+      # Webhook 事件通知配置
+      MINIO_NOTIFY_WEBHOOK_ENABLE_1: "on"
+      MINIO_NOTIFY_WEBHOOK_ENDPOINT_1: "https://groupb-project-3a82e1f0.fastapicloud.dev/webhook"
     volumes:
       - silo:/data
     ports:
       - "9000:9000"
       - "9001:9001"
     command: server /data --console-address ":9001"
+    healthcheck:
+      test: [ "CMD", "mc", "ready", "local" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # pgsty/mc 自动化初始化服务
+  silo-init:
+    image: docker.1ms.run/pgsty/mc
+    depends_on:
+      silo:
+        condition: service_healthy
+    volumes:
+      # 映射到容器内的 /data/csv 路径
+      - ./data/csv:/data/csv:ro
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set myminio http://silo:9000 admin fastapicloud;
+      mc mb --ignore-existing myminio/data;
+      mc event add myminio/data arn:minio:sqs::1:webhook --event put --prefix 'csv' --ignore-existing;
+      if [ -d '/data/csv' ]; then
+        echo '开始同步本地初始化数据到 myminio/data/csv/...';
+        mc cp --recursive /data/csv/ myminio/data/csv/;
+      fi;
+      echo 'MinIO 初始化与数据同步完成';
+      "
 
 volumes:
   mysql:

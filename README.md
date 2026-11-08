@@ -9,5 +9,5 @@
 3. destroy为销毁清理脚本
 
 ## (三) csv文件格式
-1. 固定文件格式，如industry_chart_data_2026-09-23_22-00-00.csv（时间精确到毫秒）
-2. 两张数据文件，文件名为industry_chart_data_2026-09-23_22-00-00.csv和review_chart_data_2026-09-23_22-00-00.csv
+1. 固定文件格式，如industry_chart_data_2026-09-24_22-00-00.csv（时间精确到毫秒）
+2. 两张数据文件，文件名为industry_chart_data_2026-09-24_22-00-00.csv和review_chart_data_2026-09-23_22-00-00.csv

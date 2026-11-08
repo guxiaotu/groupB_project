@@ -1,4 +1,5 @@
 from typing import Annotated
+from urllib.parse import unquote
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
@@ -36,6 +37,22 @@ async def review(request: Request, review_view: Annotated[dict, Depends(get_revi
     )
 
 
-@router.get(path="/api/webhook/{file_name}")
-async def db_update(file_name: str):
+@router.post(path="/webhook", description="silo更新csv文件")
+async def db_update(request: Request):
+    payload = await request.json()
+
+    # 取 object key
+    records = payload.get("Records", [])
+    if not records:
+        return {"error": "no records"}
+
+    rec = records[0]
+    raw_key = rec["s3"]["object"]["key"]
+
+    # URL 解码
+    object_key = unquote(raw_key)
+
+    # 取完整文件名（不去掉后缀）
+    file_name = object_key.rsplit("/", 1)[-1]
     await save_csv(file_name)
+    return {"status": "ok"}
