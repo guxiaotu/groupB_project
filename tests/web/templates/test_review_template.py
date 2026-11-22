@@ -72,7 +72,7 @@ def make_mock_review():
 def test_review_template_renders(jinja_env, template_context):
     template_context["review"] = make_mock_review()
 
-    template = jinja_env.get_template("review.jinja2")
+    template = jinja_env.get_template("review.html")
     html = template.render(**template_context)
 
     # 页面标题
@@ -119,7 +119,7 @@ def test_review_empty_payload(jinja_env, template_context):
     }
 
     template_context["review"] = review
-    html = jinja_env.get_template("review.jinja2").render(**template_context)
+    html = jinja_env.get_template("review.html").render(**template_context)
 
     assert "评论分析" in html
 
@@ -132,7 +132,7 @@ def test_review_empty_rows(jinja_env, template_context):
     review["payload"]["motivation"]["rows"] = []
 
     template_context["review"] = review
-    html = jinja_env.get_template("review.jinja2").render(**template_context)
+    html = jinja_env.get_template("review.html").render(**template_context)
 
     assert "负面主题" in html
     assert "正面主题" in html
@@ -152,7 +152,7 @@ def test_review_payload_xss_safe(jinja_env, template_context):
     )
 
     template_context["review"] = review
-    html = jinja_env.get_template("review.jinja2").render(**template_context)
+    html = jinja_env.get_template("review.html").render(**template_context)
 
     # tojson 应该转义
     assert "<script>alert" not in html
@@ -167,7 +167,7 @@ def test_review_labels_length_dynamic(jinja_env, template_context):
     review["payload"]["negative"]["labels"] = ["质量差", "发货慢"]
 
     template_context["review"] = review
-    html = jinja_env.get_template("review.jinja2").render(**template_context)
+    html = jinja_env.get_template("review.html").render(**template_context)
 
     assert "负面主题 TOP2" in html
 
@@ -179,7 +179,7 @@ def test_review_large_numbers(jinja_env, template_context):
     review["summary"]["sample_positive"] = 5_000_000
 
     template_context["review"] = review
-    html = jinja_env.get_template("review.jinja2").render(**template_context)
+    html = jinja_env.get_template("review.html").render(**template_context)
 
     assert "1,000,000" in html
     assert "5,000,000" in html

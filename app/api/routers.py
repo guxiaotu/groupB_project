@@ -22,7 +22,7 @@ async def industry(
     """行业分析页：价格带 / 品牌集中度 / 上架时间分布"""
     return templates.TemplateResponse(
         request=request,
-        name="industry.jinja2",
+        name="industry.html",
         context={"industry": industry_view},
     )
 
@@ -32,7 +32,7 @@ async def review(request: Request, review_view: Annotated[dict, Depends(get_revi
     """评论分析页：负面 / 正面 / 购买动机主题"""
     return templates.TemplateResponse(
         request=request,
-        name="review.jinja2",
+        name="review.html",
         context={"review": review_view},
     )
 

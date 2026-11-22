@@ -1,3 +1,4 @@
+import uvicorn
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Request
@@ -28,6 +29,11 @@ async def index(
 
     return templates.TemplateResponse(
         request=request,
-        name="index.jinja2",
+        name="index.html",
         context={"industry": industry_view, "review": review_view},
     )
+
+
+if __name__ == "__main__":
+    # 开启 reload=True 热重载时，第一个参数必须传 "文件名:实例名" 字符串
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

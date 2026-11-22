@@ -1,6 +1,7 @@
 .idea/
 *.iml
 .vscode/
+.openidea/
 .venv/
 docker/
 __pycache__/

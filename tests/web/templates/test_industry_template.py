@@ -63,14 +63,14 @@ def make_mock_industry():
 def test_industry_template_renders(jinja_env):
     industry = make_mock_industry()
 
-    template = jinja_env.get_template("industry.jinja2")
+    template = jinja_env.get_template("industry.html")
     html = template.render(
         industry=industry,
         # ✅ mock url_for
         url_for=lambda name, **kwargs: {
             "industry": "/industry",
         }.get(name, "/"),
-        # 如果 base.jinja2 里还用了 request
+        # 如果 base.html 里还用了 request
         request=None,
     )
 
