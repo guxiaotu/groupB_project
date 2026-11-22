@@ -1,4 +1,4 @@
-# 亚马逊评论数据可视化平台
+# 亚马逊离线数据分析系统
   本系统采用`uv+python3.14+fastapi+silo+citus`开发，数据库采用逻辑列模式存储。
   所有环境变量均配置在`.env`中。原始数据文件为`csv`，上传到`silo`对象存储`data/csv`下，通过配置`silio`的`webhook`事件，
 自动读取数据保存到`citus`（无主键，逻辑列模式），查询数据采用`SQLModel`的ORM框架。<br>
